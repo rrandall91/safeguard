@@ -2,6 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/rrandall91/safeguard?status.svg)](https://godoc.org/github.com/rrandall91/safeguard)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rrandall91/safeguard)](https://goreportcard.com/report/github.com/rrandall91/safeguard)
+[![Tests](https://github.com/rrandall91/safeguard/actions/workflows/test.yml/badge.svg)](https://github.com/rrandall91/safeguard/actions/workflows/test.yml)
 
 Safeguard is a lightweight wrapper library designed to provide simple helper function for implementing industry standard hashing and encryption using the SHA256 and AES-GCM algorithms, respectively.
 
