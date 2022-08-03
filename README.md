@@ -17,10 +17,10 @@ import (
 func main() {
     c := safeguard.Config{
         // 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256
-        EncryptionKey: "oAKLlH2T0wSAfMyUaUQTGXBhBjXZUp5I"
+        EncryptionKey: "oAKLlH2T0wSAfMyUaUQTGXBhBjXZUp5I",
     }
 
-    s := safeguard.New(c)
+    s := safeguard.New(&c)
 
     s.Hash("Hello World")
     // a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e

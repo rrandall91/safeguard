@@ -67,13 +67,13 @@ func TestEncryption(t *testing.T) {
 				key:       encKey,
 			},
 		},
-		// {
-		// 	name: "Test 'foobar'",
-		// 	args: args{
-		// 		plaintext: "foobar",
-		// 		key:       encKey,
-		// 	},
-		// },
+		{
+			name: "Test 'foobar'",
+			args: args{
+				plaintext: "foobar",
+				key:       encKey,
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -90,8 +90,6 @@ func TestEncryption(t *testing.T) {
 			if err != nil {
 				t.Errorf("Encrypt() error = %v", err)
 			}
-
-			t.Errorf(encryptedResult)
 
 			decryptedResult, err := s.Decrypt(encryptedResult)
 			if err != nil {
