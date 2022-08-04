@@ -7,15 +7,15 @@ import (
 func TestError(t *testing.T) {
 	tests := []struct {
 		name string
-		arg string
+		arg  string
 	}{
 		{
 			name: "Test 'Hello World'",
-			arg: "Hello World",
+			arg:  "Hello World",
 		},
 		{
 			name: "Test 'foobar'",
-			arg: "foobar",
+			arg:  "foobar",
 		},
 	}
 
