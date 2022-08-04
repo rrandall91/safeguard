@@ -8,6 +8,12 @@
 
 Safeguard is a lightweight wrapper library designed to provide simple helper function for implementing industry standard hashing and encryption using the SHA256 and AES-GCM algorithms, respectively.
 
+## Features
+
+* Simple wrapper for handling AES-GCM encryption and decryption
+* Simple wrapper for handling SHA256 hashing
+* No dependencies (only uses the Go standard library)
+
 ## Usage
 
 ```go
