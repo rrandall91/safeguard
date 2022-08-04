@@ -42,8 +42,7 @@ func (s *Safeguard) Hash(plaintext string) (hash string, err error) {
 
 // Encrypt returns a base64 encoded AES-GCM ciphertext.
 func (s *Safeguard) Encrypt(plaintext string) (ciphertext string, err error) {
-	if s.Config.EncryptionKey == "" {
-		err = ErrEncryptionKeyEmpty
+	if err = s.Config.Validate(); err != nil {
 		return
 	}
 
@@ -71,8 +70,7 @@ func (s *Safeguard) Encrypt(plaintext string) (ciphertext string, err error) {
 
 // Decrypt returns the plaintext of the given base64 encoded AES-GCM ciphertext.
 func (s *Safeguard) Decrypt(ciphertext string) (plaintext string, err error) {
-	if s.Config.EncryptionKey == "" {
-		err = ErrEncryptionKeyEmpty
+	if err = s.Config.Validate(); err != nil {
 		return
 	}
 
