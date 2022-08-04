@@ -25,4 +25,8 @@ jobs:
     - name: Fetch Repository
       uses: actions/checkout@v3
     - name: Run Tests
-      run: go test -race -v ./...
+      run: go test -race -coverprofile=c.out -v ./...
+    - name: Test Coverage
+      uses: paambaati/codeclimate-action@v3.0.0
+      env:
+        CC_TEST_REPORTER_ID: e54d02f9006645f68b9fe2ef59e7184d5df383ce5eca5bf13bd8647ede2d7a2d
