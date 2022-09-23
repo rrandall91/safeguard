@@ -52,6 +52,18 @@ func main() {
     }
     log.Println(v)
     // Hello World
+
+
+
+    // Or, you can return the values in-place
+
+    v := s.EncryptString("Hello World")
+    log.Println(v)
+    // mZ/h+rTwNfUJIflKjG9rt3TxmkbtarXpgVWnZzR62/ZeLJ4O+hFe
+
+    v := s.DecryptString("mZ/h+rTwNfUJIflKjG9rt3TxmkbtarXpgVWnZzR62/ZeLJ4O+hFe")
+    log.Println(v)
+    // Hello World
 }
 ```
 
