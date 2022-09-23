@@ -50,7 +50,7 @@ func TestHash(t *testing.T) {
 	}
 }
 
-func TestEncryption(t *testing.T) {
+func TestEncrypt(t *testing.T) {
 	type args struct {
 		plaintext string
 		key       string
@@ -103,6 +103,53 @@ func TestEncryption(t *testing.T) {
 	}
 }
 
+func TestEncryptString(t *testing.T) {
+	type args struct {
+		plaintext string
+		key       string
+	}
+
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "Test 'Hello World'",
+			args: args{
+				plaintext: "Hello World",
+				key:       encKey,
+			},
+		},
+		{
+			name: "Test 'foobar'",
+			args: args{
+				plaintext: "foobar",
+				key:       encKey,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := New(&Config{
+				EncryptionKey: tt.args.key,
+			})
+
+			if s.Config.EncryptionKey == "" {
+				t.Errorf("EncryptionKey is empty")
+			}
+
+			encryptedResult := s.EncryptString(tt.args.plaintext)
+
+			decryptedResult := s.DecryptString(encryptedResult)
+
+			if decryptedResult != tt.args.plaintext {
+				t.Errorf("Decrypt() = %v, want %v", decryptedResult, tt.args.plaintext)
+			}
+		})
+	}
+}
+
 func BenchmarkHash(b *testing.B) {
 	s := New(&Config{})
 
@@ -111,12 +158,22 @@ func BenchmarkHash(b *testing.B) {
 	}
 }
 
-func BenchmarkEncryption(b *testing.B) {
+func BenchmarkEncrypt(b *testing.B) {
 	s := New(&Config{
 		EncryptionKey: encKey,
 	})
 
 	for i := 0; i < b.N; i++ {
 		s.Encrypt("Hello World")
+	}
+}
+
+func BenchmarkEncryptString(b *testing.B) {
+	s := New(&Config{
+		EncryptionKey: encKey,
+	})
+
+	for i := 0; i < b.N; i++ {
+		s.EncryptString("Hello World")
 	}
 }

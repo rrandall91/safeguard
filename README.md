@@ -20,6 +20,7 @@ Safeguard is a lightweight wrapper library designed to provide simple helper fun
 package main
 
 import (
+    "log"
     "github.com/rrandall91/safeguard"
 )
 
@@ -31,13 +32,25 @@ func main() {
 
     s := safeguard.New(&c)
 
-    s.Hash("Hello World")
+    v, err := s.Hash("Hello World")
+    if err != nil {
+        panic(err)
+    }
+    log.Println(h)
     // a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e
 
-    s.Encrypt("Hello World")
+    v, err := s.Encrypt("Hello World")
+    if err != nil {
+        panic(err)
+    }
+    log.Println(v)
     // mZ/h+rTwNfUJIflKjG9rt3TxmkbtarXpgVWnZzR62/ZeLJ4O+hFe
 
-    s.Decrypt("mZ/h+rTwNfUJIflKjG9rt3TxmkbtarXpgVWnZzR62/ZeLJ4O+hFe")
+    v, err := s.Decrypt("mZ/h+rTwNfUJIflKjG9rt3TxmkbtarXpgVWnZzR62/ZeLJ4O+hFe")
+    if err != nil {
+        panic(err)
+    }
+    log.Println(v)
     // Hello World
 }
 ```
