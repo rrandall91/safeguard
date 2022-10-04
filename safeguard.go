@@ -13,6 +13,8 @@ import (
 var (
 	// ErrEncryptionKeyEmpty is returned when the EncryptionKey is empty.
 	ErrEncryptionKeyEmpty = Error("encryption key is empty")
+	// ErrInvalidEncryptionKey is returned when the EncryptionKey is invalid.
+	ErrInvalidEncryptionKey = Error("invalid encryption key")
 )
 
 type Safeguard struct {
