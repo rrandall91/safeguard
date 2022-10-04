@@ -29,6 +29,33 @@ func TestValidate(t *testing.T) {
 			},
 			want: nil,
 		},
+		{
+			name: "Test invalid encryption key (16 bytes)",
+			args: args{
+				c: &Config{
+					EncryptionKey: "secret",
+				},
+			},
+			want: ErrInvalidEncryptionKey,
+		},
+		{
+			name: "Test invalid encryption key (24 bytes)",
+			args: args{
+				c: &Config{
+					EncryptionKey: "secretpasswordnotgood",
+				},
+			},
+			want: ErrInvalidEncryptionKey,
+		},
+		{
+			name: "Test invalid encryption key (32 bytes)",
+			args: args{
+				c: &Config{
+					EncryptionKey: "secretsecretpasswordnotgoodevennow",
+				},
+			},
+			want: ErrInvalidEncryptionKey,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
