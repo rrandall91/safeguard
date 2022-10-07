@@ -99,6 +99,76 @@ func TestEncrypt(t *testing.T) {
 			if decryptedResult != tt.args.plaintext {
 				t.Errorf("Decrypt() = %v, want %v", decryptedResult, tt.args.plaintext)
 			}
+
+			result1, _ := s.Encrypt(tt.args.plaintext)
+			result2, _ := s.Encrypt(tt.args.plaintext)
+
+			if result1 == result2 {
+				t.Errorf("Encrypt() = %v, want %v", result1, result2)
+			}
+		})
+	}
+}
+
+func TestEncryptWithNonce(t *testing.T) {
+	type args struct {
+		plaintext string
+		nonce     string
+		key       string
+	}
+
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "Test 'Hello World'",
+			args: args{
+				plaintext: "Hello World",
+				nonce:     "123456",
+				key:       encKey,
+			},
+		},
+		{
+			name: "Test 'foobar'",
+			args: args{
+				plaintext: "foobar",
+				nonce:     "ABCDEFGHIJKLMNOPQRSTUWXYZ12345",
+				key:       encKey,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := New(&Config{
+				EncryptionKey: tt.args.key,
+			})
+
+			if s.Config.EncryptionKey == "" {
+				t.Errorf("EncryptionKey is empty")
+			}
+
+			encryptedResult, err := s.EncryptWithNonce(tt.args.plaintext, tt.args.nonce)
+			if err != nil {
+				t.Errorf("EncryptWithNonce() error = %v", err)
+			}
+
+			decryptedResult, err := s.Decrypt(encryptedResult)
+			if err != nil {
+				t.Errorf("Decrypt() error = %v", err)
+			}
+
+			if decryptedResult != tt.args.plaintext {
+				t.Errorf("Decrypt() = %v, want %v", decryptedResult, tt.args.plaintext)
+			}
+
+			result1, _ := s.EncryptWithNonce(tt.args.plaintext, tt.args.nonce)
+			result2, _ := s.EncryptWithNonce(tt.args.plaintext, tt.args.nonce)
+
+			if result1 != result2 {
+				t.Errorf("EncryptWithNonce() = %v, want %v", result1, result2)
+			}
 		})
 	}
 }
@@ -145,6 +215,70 @@ func TestEncryptString(t *testing.T) {
 
 			if decryptedResult != tt.args.plaintext {
 				t.Errorf("Decrypt() = %v, want %v", decryptedResult, tt.args.plaintext)
+			}
+
+			result1 := s.EncryptString(tt.args.plaintext)
+			result2 := s.EncryptString(tt.args.plaintext)
+
+			if result1 == result2 {
+				t.Errorf("EncryptString() = %v, want %v", result1, result2)
+			}
+		})
+	}
+}
+
+func TestEncryptStringWithNonce(t *testing.T) {
+	type args struct {
+		plaintext string
+		nonce     string
+		key       string
+	}
+
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "Test 'Hello World'",
+			args: args{
+				plaintext: "Hello World",
+				nonce:     "123456",
+				key:       encKey,
+			},
+		},
+		{
+			name: "Test 'foobar'",
+			args: args{
+				plaintext: "foobar",
+				nonce:     "ABCDEFGHIJKLMNOPQRSTUWXYZ12345",
+				key:       encKey,
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := New(&Config{
+				EncryptionKey: tt.args.key,
+			})
+
+			if s.Config.EncryptionKey == "" {
+				t.Errorf("EncryptionKey is empty")
+			}
+
+			encryptedResult := s.EncryptStringWithNonce(tt.args.plaintext, tt.args.nonce)
+
+			decryptedResult := s.DecryptString(encryptedResult)
+
+			if decryptedResult != tt.args.plaintext {
+				t.Errorf("Decrypt() = %v, want %v", decryptedResult, tt.args.plaintext)
+			}
+
+			result1 := s.EncryptStringWithNonce(tt.args.plaintext, tt.args.nonce)
+			result2 := s.EncryptStringWithNonce(tt.args.plaintext, tt.args.nonce)
+
+			if result1 != result2 {
+				t.Errorf("EncryptStringWithNonce() = %v, want %v", result1, result2)
 			}
 		})
 	}

@@ -1,6 +1,7 @@
 package safeguard
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -70,9 +71,50 @@ func (s *Safeguard) Encrypt(plaintext string) (ciphertext string, err error) {
 	return
 }
 
+func (s *Safeguard) EncryptWithNonce(plaintext string, nonce string) (ciphertext string, err error) {
+	if err = s.Config.Validate(); err != nil {
+		return
+	}
+
+	block, err := aes.NewCipher([]byte(s.Config.EncryptionKey))
+	if err != nil {
+		return
+	}
+
+	gcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return
+	}
+
+	nonceByte := make([]byte, gcm.NonceSize())
+	str, err := base64.StdEncoding.DecodeString(nonce)
+	if _, err = io.ReadFull(bytes.NewReader(bytes.Repeat(str, gcm.NonceSize())), nonceByte); err != nil {
+
+	}
+	if err != nil {
+		return
+	}
+
+	ciphertextbyte := gcm.Seal(nonceByte, nonceByte, []byte(plaintext), nil)
+
+	ciphertext = base64.StdEncoding.EncodeToString(ciphertextbyte)
+
+	return
+}
+
 // EncryptString returns a base64 encoded AES-GCM ciphertext.
 func (s *Safeguard) EncryptString(plaintext string) (ciphertext string) {
 	str, err := s.Encrypt(plaintext)
+	if err != nil {
+		return
+	}
+
+	return str
+}
+
+// EncryptStringWithNonce returns a base64 encoded AES-GCM ciphertext with the given nonce.
+func (s *Safeguard) EncryptStringWithNonce(plaintext string, nonce string) (ciphertext string) {
+	str, err := s.EncryptWithNonce(plaintext, nonce)
 	if err != nil {
 		return
 	}
