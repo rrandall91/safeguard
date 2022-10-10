@@ -89,9 +89,6 @@ func (s *Safeguard) EncryptWithNonce(plaintext string, nonce string) (ciphertext
 	nonceByte := make([]byte, gcm.NonceSize())
 	str, err := base64.StdEncoding.DecodeString(nonce)
 	if _, err = io.ReadFull(bytes.NewReader(bytes.Repeat(str, gcm.NonceSize())), nonceByte); err != nil {
-
-	}
-	if err != nil {
 		return
 	}
 
